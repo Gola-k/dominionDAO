@@ -1,9 +1,5 @@
 # How to Build a Glorious Web3.0 DAO with React, Solidity, and CometChat
 
-Read the full tutorial here: [**>> How to Build a Glorious Web3.0 DAO with React, Solidity, and CometChat**](https://daltonic.github.io)
-
-This example shows How to Build a Glorious Web3.0 DAO with React, Solidity, and CometChat:
-
 ![Dominion DAO Project](./screenshots/0.gif)
 <center><figcaption>Dominion DAO Project</figcaption></center>
 
@@ -12,11 +8,10 @@ This example shows How to Build a Glorious Web3.0 DAO with React, Solidity, and 
 This demo uses:
 
 - Metamask
-- Truffle
+- Foundry
 - Infuria
 - ReactJs
 - Tailwind CSS
-- Ganache-CLI
 - Solidity
 - Web3js
 - Faucet
@@ -52,7 +47,7 @@ To run the demo follow these steps:
 
 If your confuse about the installation, check out this **TUTORIAL** to see how you should run it.
 
-Questions about running the demo? [Open an issue](https://github.com/Daltonic/dominionDAO/issues). We're here to help ✌️
+Questions about running the demo? [Open an issue](https://github.com/Gola-k/dominionDAO/issues). We're here to help ✌️
 
 ## Useful links
 
@@ -64,6 +59,4 @@ Questions about running the demo? [Open an issue](https://github.com/Daltonic/do
 - 🔥 [ReactJs](https://reactjs.org/)
 - 🐻 [Solidity](https://soliditylang.org/)
 - 👀 [Web3Js](https://docs.ethers.io/v5/)
-- 🎅 [Faucet](https://faucets.chain.link/rinkeby)
-- 🤖 [Ganache](https://trufflesuite.com/ganache/index.html)
 - ✨ [Live Demo](https://dominiondao.web.app/)
