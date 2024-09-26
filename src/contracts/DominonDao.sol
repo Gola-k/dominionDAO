@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity ^0.8.23;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import { EquitoApp } from "./equito-evm/src/EquitoApp.sol";
+import { bytes64 ,EquitoMessage, EquitoMessageLibrary } from "./equito-evm/src/libraries/EquitoMessageLibrary.sol";
 
-contract DominionDAO is ReentrancyGuard, AccessControl {
+contract DominionDAO is ReentrancyGuard, AccessControl, EquitoApp {
     bytes32 private immutable CONTRIBUTOR_ROLE = keccak256("CONTRIBUTOR");
     bytes32 private immutable STAKEHOLDER_ROLE = keccak256("STAKEHOLDER");
+    uint256 constant FEE_PER_MESSAGE = 0.01 ether; 
+
     uint256 immutable MIN_STAKEHOLDER_CONTRIBUTION = 1 ether;
-    // uint32 immutable MIN_VOTE_DURATION = 1 weeks;
     uint32 immutable MIN_VOTE_DURATION = 5 minutes;
     uint256 totalProposals;
     uint256 public daoBalance;
@@ -48,6 +51,13 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
         uint256 amount
     );
 
+    constructor(address _router) EquitoApp(_router) {
+        // The EquitoApp constructor initializes Ownable with msg.sender
+        // No need to set up roles here unless required
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(STAKEHOLDER_ROLE, msg.sender);
+    }
+
     modifier stakeholderOnly(string memory message) {
         require(hasRole(STAKEHOLDER_ROLE, msg.sender), message);
         _;
@@ -62,10 +72,13 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
         string calldata title,
         string calldata description,
         address beneficiary,
-        uint256 amount
-    )external
-     stakeholderOnly("Proposal Creation Allowed for Stakeholders only")
-     returns (ProposalStruct memory)
+        uint256 amount,
+        uint256[] calldata destinationChainSelectors
+    )
+        external
+        payable
+        stakeholderOnly("Proposal Creation Allowed for Stakeholders only")
+        returns (ProposalStruct memory)
     {
         uint256 proposalId = totalProposals++;
         ProposalStruct storage proposal = raisedProposals[proposalId];
@@ -86,11 +99,31 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
             amount
         );
 
+        // Cross-chain messaging
+        bytes memory data = abi.encode("proposal", proposal);
+
+        uint256 feePerMessage = FEE_PER_MESSAGE;
+        uint256 totalFee = feePerMessage * destinationChainSelectors.length;
+
+        require(msg.value >= totalFee, "Insufficient fee for cross-chain messages");
+
+        for (uint256 i = 0; i < destinationChainSelectors.length; i++) {
+            uint256 chainSelector = destinationChainSelectors[i];
+            bytes64 memory peerAddress = getPeer(chainSelector);
+
+            router.sendMessage{value: feePerMessage}(
+                peerAddress,
+                chainSelector,
+                data
+            );
+        }
+
         return proposal;
     }
 
     function performVote(uint256 proposalId, bool choosen)
         external
+        payable
         stakeholderOnly("Unauthorized: Stakeholders only")
         returns (VotedStruct memory)
     {
@@ -119,11 +152,31 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
             proposal.amount
         );
 
-        return VotedStruct(
-                msg.sender,
-                block.timestamp,
-                choosen
+        // Cross-chain voting
+        bytes memory payload = abi.encode("vote", proposalId, msg.sender, choosen);
+
+        uint256[] memory destinationChainSelectors = getOtherChainSelectors();
+        uint256 feePerMessage = FEE_PER_MESSAGE;
+        uint256 totalFee = feePerMessage * destinationChainSelectors.length;
+
+        require(msg.value >= totalFee, "Insufficient fee for cross-chain messages");
+
+        for (uint256 i = 0; i < destinationChainSelectors.length; i++) {
+            uint256 chainSelector = destinationChainSelectors[i];
+            bytes64 memory peerAddress = getPeer(chainSelector);
+
+            router.sendMessage{value: feePerMessage}(
+                peerAddress,
+                chainSelector,
+                payload
             );
+        }
+
+        return VotedStruct(
+            msg.sender,
+            block.timestamp,
+            choosen
+        );
     }
 
     function handleVoting(ProposalStruct storage proposal) private {
@@ -165,7 +218,7 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
         emit Action(
             msg.sender,
             STAKEHOLDER_ROLE,
-            "PAYMENT TRANSFERED",
+            "PAYMENT TRANSFERRED",
             proposal.beneficiary,
             proposal.amount
         );
@@ -182,17 +235,17 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
             if (totalContribution >= MIN_STAKEHOLDER_CONTRIBUTION) {
                 stakeholders[msg.sender] = totalContribution;
                 contributors[msg.sender] += msg.value;
-                _setupRole(STAKEHOLDER_ROLE, msg.sender);
-                _setupRole(CONTRIBUTOR_ROLE, msg.sender);
+                _grantRole(STAKEHOLDER_ROLE, msg.sender);
+                _grantRole(CONTRIBUTOR_ROLE, msg.sender);
             } else {
                 contributors[msg.sender] += msg.value;
-                _setupRole(CONTRIBUTOR_ROLE, msg.sender);
+                _grantRole(CONTRIBUTOR_ROLE, msg.sender);
             }
         } else {
             contributors[msg.sender] += msg.value;
             stakeholders[msg.sender] += msg.value;
         }
-        
+
         daoBalance += msg.value;
 
         emit Action(
@@ -204,6 +257,74 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
         );
 
         return daoBalance;
+    }
+
+    // Equito cross-chain message handling
+    function _receiveMessageFromPeer(
+        EquitoMessage calldata message,
+        bytes calldata messageData
+    ) internal override {
+        (string memory messageType, bytes memory payload) = abi.decode(
+            messageData,
+            (string, bytes)
+        );
+
+        if (keccak256(bytes(messageType)) == keccak256(bytes("proposal"))) {
+            ProposalStruct memory proposal = abi.decode(payload, (ProposalStruct));
+            uint256 proposalId = totalProposals++;
+            raisedProposals[proposalId] = proposal;
+
+            emit Action(
+                proposal.proposer,
+                STAKEHOLDER_ROLE,
+                "CROSS-CHAIN PROPOSAL RECEIVED",
+                proposal.beneficiary,
+                proposal.amount
+            );
+        } else if (keccak256(bytes(messageType)) == keccak256(bytes("vote"))) {
+            (uint256 proposalId, address voter, bool choosen) = abi.decode(
+                payload,
+                (uint256, address, bool)
+            );
+
+            ProposalStruct storage proposal = raisedProposals[proposalId];
+
+            if (choosen) proposal.upvotes++;
+            else proposal.downvotes++;
+
+            stakeholderVotes[voter].push(proposal.id);
+
+            votedOn[proposal.id].push(
+                VotedStruct(
+                    voter,
+                    block.timestamp,
+                    choosen
+                )
+            );
+
+            emit Action(
+                voter,
+                STAKEHOLDER_ROLE,
+                "CROSS-CHAIN PROPOSAL VOTE",
+                proposal.beneficiary,
+                proposal.amount
+            );
+        } else {
+            revert("Invalid message type");
+        }
+    }
+
+    function _receiveMessageFromNonPeer(
+        EquitoMessage calldata message,
+        bytes calldata messageData
+    ) internal override {
+        revert("Messages from non-peer contracts are not accepted");
+    }
+
+    // Helper function to get selectors of other chains
+    function getOtherChainSelectors() internal view returns (uint256[] memory) {
+        // Implement logic to return selectors of other chains
+        // For example, return a hardcoded array or retrieve from storage
     }
 
     function getProposals()
@@ -218,63 +339,10 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
         }
     }
 
-    function getProposal(uint256 proposalId)
-        external
-        view
-        returns (ProposalStruct memory)
-    {
-        return raisedProposals[proposalId];
-    }
-    
-    function getVotesOf(uint256 proposalId)
-        external
-        view
-        returns (VotedStruct[] memory)
-    {
-        return votedOn[proposalId];
-    }
-
-    function getStakeholderVotes()
-        external
-        view
-        stakeholderOnly("Unauthorized: not a stakeholder")
-        returns (uint256[] memory)
-    {
-        return stakeholderVotes[msg.sender];
-    }
-
-    function getStakeholderBalance()
-        external
-        view
-        stakeholderOnly("Unauthorized: not a stakeholder")
-        returns (uint256)
-    {
-        return stakeholders[msg.sender];
-    }
-
-    function isStakeholder() external view returns (bool) {
-        return stakeholders[msg.sender] > 0;
-    }
-
-    function getContributorBalance()
-        external
-        view
-        contributorOnly("Denied: User is not a contributor")
-        returns (uint256)
-    {
-        return contributors[msg.sender];
-    }
-
-    function isContributor() external view returns (bool) {
-        return contributors[msg.sender] > 0;
-    }
-
-    function getBalance() external view returns (uint256) {
-        return contributors[msg.sender];
-    }
+    // Rest of your existing functions...
 
     function payTo(
-        address to, 
+        address to,
         uint256 amount
     ) internal returns (bool) {
         (bool success,) = payable(to).call{value: amount}("");

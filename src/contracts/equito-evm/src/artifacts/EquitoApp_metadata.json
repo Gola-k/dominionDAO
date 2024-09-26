@@ -1,0 +1,476 @@
+{
+	"compiler": {
+		"version": "0.8.27+commit.40a35a09"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "InvalidLength",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidMessageSender",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "chainSelector",
+						"type": "uint256"
+					}
+				],
+				"name": "InvalidPeer",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "router",
+						"type": "address"
+					}
+				],
+				"name": "InvalidRouter",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"name": "OwnableInvalidOwner",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "OwnableUnauthorizedAccount",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "RouterAddressCannotBeZero",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "chainSelector",
+						"type": "uint256"
+					}
+				],
+				"name": "getPeer",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "bytes32",
+								"name": "lower",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "upper",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct bytes64",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "peers",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "lower",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "upper",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "blockNumber",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "sourceChainSelector",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "bytes32",
+										"name": "lower",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "upper",
+										"type": "bytes32"
+									}
+								],
+								"internalType": "struct bytes64",
+								"name": "sender",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "destinationChainSelector",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "bytes32",
+										"name": "lower",
+										"type": "bytes32"
+									},
+									{
+										"internalType": "bytes32",
+										"name": "upper",
+										"type": "bytes32"
+									}
+								],
+								"internalType": "struct bytes64",
+								"name": "receiver",
+								"type": "tuple"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "hashedData",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct EquitoMessage",
+						"name": "message",
+						"type": "tuple"
+					},
+					{
+						"internalType": "bytes",
+						"name": "messageData",
+						"type": "bytes"
+					}
+				],
+				"name": "receiveMessage",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "chainSelectors",
+						"type": "uint256[]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "bytes32",
+								"name": "lower",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "upper",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct bytes64[]",
+						"name": "addresses",
+						"type": "tuple[]"
+					}
+				],
+				"name": "setPeers",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"errors": {
+				"InvalidPeer(uint256)": [
+					{
+						"params": {
+							"chainSelector": "The chain selector for which the peer address is requested."
+						}
+					}
+				],
+				"InvalidRouter(address)": [
+					{
+						"params": {
+							"router": "The address of the router that caused the error."
+						}
+					}
+				],
+				"OwnableInvalidOwner(address)": [
+					{
+						"details": "The owner is not a valid owner account. (eg. `address(0)`)"
+					}
+				],
+				"OwnableUnauthorizedAccount(address)": [
+					{
+						"details": "The caller account is not authorized to perform an operation."
+					}
+				]
+			},
+			"kind": "dev",
+			"methods": {
+				"constructor": {
+					"params": {
+						"_router": "The address of the router contract."
+					}
+				},
+				"getPeer(uint256)": {
+					"details": "Throws an error if the chain selector is not found in the mapping.",
+					"params": {
+						"chainSelector": "The chain selector for which the peer address is requested."
+					},
+					"returns": {
+						"_0": "The peer address for the given chain selector."
+					}
+				},
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"receiveMessage((uint256,uint256,(bytes32,bytes32),uint256,(bytes32,bytes32),bytes32),bytes)": {
+					"params": {
+						"message": "The Equito message received.",
+						"messageData": "The data of the message received."
+					}
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+				},
+				"setPeers(uint256[],(bytes32,bytes32)[])": {
+					"params": {
+						"addresses": "The list of addresses corresponding to the chain selectors.",
+						"chainSelectors": "The list of chain selectors."
+					}
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				}
+			},
+			"stateVariables": {
+				"peers": {
+					"details": "Mapping to store peer addresses for different chain selectors."
+				},
+				"router": {
+					"details": "The Router Contract that is used to send and receive messages."
+				}
+			},
+			"title": "EquitoApp",
+			"version": 1
+		},
+		"userdoc": {
+			"errors": {
+				"InvalidLength()": [
+					{
+						"notice": "Thrown when the lengths of arrays are invalid."
+					}
+				],
+				"InvalidMessageSender()": [
+					{
+						"notice": "Thrown when the sender of a message is invalid."
+					}
+				],
+				"InvalidPeer(uint256)": [
+					{
+						"notice": "Thrown when a Peer address is not found in the mapping, given a chain selector."
+					}
+				],
+				"InvalidRouter(address)": [
+					{
+						"notice": "Thrown when the router address is invalid."
+					}
+				],
+				"RouterAddressCannotBeZero()": [
+					{
+						"notice": "Thrown when the router address is zero."
+					}
+				]
+			},
+			"kind": "user",
+			"methods": {
+				"constructor": {
+					"notice": "Initializes the EquitoApp contract and set the router address."
+				},
+				"getPeer(uint256)": {
+					"notice": "Returns the peer address for a given chain selector."
+				},
+				"receiveMessage((uint256,uint256,(bytes32,bytes32),uint256,(bytes32,bytes32),bytes32),bytes)": {
+					"notice": "Receives a cross-chain message from the Router Contract.         It is a wrapper function for the `_receiveMessage` functions, that need to be overridden.         Only the Router Contract is allowed to call this function."
+				},
+				"setPeers(uint256[],(bytes32,bytes32)[])": {
+					"notice": "Allows the owner to set the peer addresses for different chain selectors."
+				}
+			},
+			"notice": "This abstract contract is the base for all applications that want to leverage         the Equito cross-chain messaging protocol to communicate with other blockchains.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/equito-evm/src/EquitoApp.sol": "EquitoApp"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/access/Ownable.sol": {
+			"keccak256": "0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6",
+				"dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a"
+			]
+		},
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
+				"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
+			]
+		},
+		"contracts/equito-evm/src/EquitoApp.sol": {
+			"keccak256": "0x61d156be499722fb1ee2dc446d1e8807870c658462d94ea77bb9d97667cf2415",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c7b9528f9515f4fad0dc05b76b5892f9eb1d781f36b58ad42450cdc0a4db458c",
+				"dweb:/ipfs/QmcJif7AM1nDFdqGFpJpqnV7z69i1hUoHtBVF2QfMWyYjc"
+			]
+		},
+		"contracts/equito-evm/src/interfaces/IEquitoReceiver.sol": {
+			"keccak256": "0xb64ed59be348f84a82cc89f4a817ead53b2aa196786e8af9e7459bddcdf6b448",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8c2e5787b6f15ff5dcb8dec914377f5cd50a4a585ef17aff4a7563b206795349",
+				"dweb:/ipfs/QmVFwhmUGLvmLhbbzsN1GKRiPif46us47151PAXox4ACyp"
+			]
+		},
+		"contracts/equito-evm/src/interfaces/IRouter.sol": {
+			"keccak256": "0xfc910f26c039d760ba63a5147b93e7221cb9949bf5819ee55198b5acfcb0395a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e3c2fa12e999c90d0919c129c99e97f1c3e8c65e231de7a29c56eacdfcfa3b69",
+				"dweb:/ipfs/QmSkDcYAvqGgxdZJVqxfRmeGSPN5s4ppZLmkQ4vQoZ69yU"
+			]
+		},
+		"contracts/equito-evm/src/libraries/EquitoMessageLibrary.sol": {
+			"keccak256": "0xcc07267aa6af97e9bb238f44c3d8ec262916625c9a1a8e2510e15e4b6c1d5552",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://47dd6eb755eaf0fef51d4682cc1297d0da980e3134cc993fc760ecbf42be4d1a",
+				"dweb:/ipfs/QmP2YL7KRMw1UhJtvss86HMKiQtqLY7YEGN98GfzSqEEjw"
+			]
+		},
+		"contracts/equito-evm/src/libraries/Errors.sol": {
+			"keccak256": "0x71f69a5b3d0b5e763564066ad6f8663069f27148b7eaca7f08b87e4107dc9535",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e5e7fc2f7a922188b9b19f00ff9eabda587687ee188518054e27226a21df5393",
+				"dweb:/ipfs/QmVqKMd9oJdg4cfkdEwcbP3CpHoztnZ1d2e3MAjvKutTt1"
+			]
+		}
+	},
+	"version": 1
+}

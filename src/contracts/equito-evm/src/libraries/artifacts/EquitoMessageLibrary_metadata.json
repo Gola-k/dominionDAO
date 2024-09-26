@@ -1,0 +1,48 @@
+{
+	"compiler": {
+		"version": "0.8.27+commit.40a35a09"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"details": "Contains hashing function for EquitoMessage.",
+			"kind": "dev",
+			"methods": {},
+			"title": "EquitoMessageLibrary",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"notice": "Library providing helper functions for EquitoMessage struct.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/equito-evm/src/libraries/EquitoMessageLibrary.sol": "EquitoMessageLibrary"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/equito-evm/src/libraries/EquitoMessageLibrary.sol": {
+			"keccak256": "0xcc07267aa6af97e9bb238f44c3d8ec262916625c9a1a8e2510e15e4b6c1d5552",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://47dd6eb755eaf0fef51d4682cc1297d0da980e3134cc993fc760ecbf42be4d1a",
+				"dweb:/ipfs/QmP2YL7KRMw1UhJtvss86HMKiQtqLY7YEGN98GfzSqEEjw"
+			]
+		}
+	},
+	"version": 1
+}

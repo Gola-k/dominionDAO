@@ -1,0 +1,284 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "CostMustBeGreaterThanZero",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InitialVerifierZeroAddress",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InsufficientFee",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InsufficientValueSent",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidLength",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidLiquidityProvider",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidMessageSender",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidMessagesProof",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidOperation",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "chainSelector",
+						"type": "uint256"
+					}
+				],
+				"name": "InvalidPeer",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "router",
+						"type": "address"
+					}
+				],
+				"name": "InvalidRouter",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "InvalidSender",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidSessionId",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidSovereign",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidTokenPriceFromOracle",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidVerifierIndex",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "RouterAddressCannotBeZero",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "RouterAlreadySet",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "SessionIdMismatch",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "TransferFailed",
+				"type": "error"
+			}
+		],
+		"devdoc": {
+			"errors": {
+				"InvalidPeer(uint256)": [
+					{
+						"params": {
+							"chainSelector": "The chain selector for which the peer address is requested."
+						}
+					}
+				],
+				"InvalidRouter(address)": [
+					{
+						"params": {
+							"router": "The address of the router that caused the error."
+						}
+					}
+				]
+			},
+			"kind": "dev",
+			"methods": {},
+			"title": "Errors",
+			"version": 1
+		},
+		"userdoc": {
+			"errors": {
+				"CostMustBeGreaterThanZero()": [
+					{
+						"notice": "Thrown when the provided cost is not greater than zero."
+					}
+				],
+				"InitialVerifierZeroAddress()": [
+					{
+						"notice": "Thrown when the initial verifier address provided in the constructor is zero."
+					}
+				],
+				"InsufficientFee()": [
+					{
+						"notice": "Thrown when the provided fee is insufficient to cover the required cost."
+					}
+				],
+				"InsufficientValueSent()": [
+					{
+						"notice": "Thrown when the amount of ether sent with the transaction is insufficient."
+					}
+				],
+				"InvalidLength()": [
+					{
+						"notice": "Thrown when the lengths of arrays are invalid."
+					}
+				],
+				"InvalidLiquidityProvider()": [
+					{
+						"notice": "Thrown when an invalid liquidity provider address is provided."
+					}
+				],
+				"InvalidMessageSender()": [
+					{
+						"notice": "Thrown when the sender of a message is invalid."
+					}
+				],
+				"InvalidMessagesProof()": [
+					{
+						"notice": "Thrown when the proof for verifying messages is invalid."
+					}
+				],
+				"InvalidOperation()": [
+					{
+						"notice": "Thrown when an invalid operation code is encountered in the received message."
+					}
+				],
+				"InvalidPeer(uint256)": [
+					{
+						"notice": "Thrown when a Peer address is not found in the mapping, given a chain selector."
+					}
+				],
+				"InvalidRouter(address)": [
+					{
+						"notice": "Thrown when the router address is invalid."
+					}
+				],
+				"InvalidSender(address)": [
+					{
+						"notice": "Thrown when an invalid sender is calling a function."
+					}
+				],
+				"InvalidSessionId()": [
+					{
+						"notice": "Thrown when the provided session ID does not match the current session."
+					}
+				],
+				"InvalidSovereign()": [
+					{
+						"notice": "Thrown when a message is received from an invalid sovereign account."
+					}
+				],
+				"InvalidTokenPriceFromOracle()": [
+					{
+						"notice": "Thrown when the token price retrieved from the oracle is invalid or zero."
+					}
+				],
+				"InvalidVerifierIndex()": [
+					{
+						"notice": "Thrown when the verifier index provided is out of bounds."
+					}
+				],
+				"RouterAddressCannotBeZero()": [
+					{
+						"notice": "Thrown when the router address is zero."
+					}
+				],
+				"RouterAlreadySet()": [
+					{
+						"notice": "Thrown when attempting to set the router, but the router is already set."
+					}
+				],
+				"SessionIdMismatch()": [
+					{
+						"notice": "Thrown when there is a mismatch in session IDs during validation."
+					}
+				],
+				"TransferFailed()": [
+					{
+						"notice": "Thrown when a transfer of fees to the liquidity provider fails."
+					}
+				]
+			},
+			"kind": "user",
+			"methods": {},
+			"notice": "Defines all error messages used in the EquitoApp contracts.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			".deps/github/equito-network/equito-evm-contracts/src/libraries/Errors.sol": "Errors"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		".deps/github/equito-network/equito-evm-contracts/src/libraries/Errors.sol": {
+			"keccak256": "0x71f69a5b3d0b5e763564066ad6f8663069f27148b7eaca7f08b87e4107dc9535",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e5e7fc2f7a922188b9b19f00ff9eabda587687ee188518054e27226a21df5393",
+				"dweb:/ipfs/QmVqKMd9oJdg4cfkdEwcbP3CpHoztnZ1d2e3MAjvKutTt1"
+			]
+		}
+	},
+	"version": 1
+}
